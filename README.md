@@ -10,6 +10,12 @@
 [![Pipecat](https://img.shields.io/badge/Pipecat-voice_pipeline-6D4BFF)](#how-we-used-the-hackathon-tools)
 [![Safety](https://img.shields.io/badge/Handoff-SIMULATED_only-FF9F2E)](#safety-and-ethics)
 
+### Judges: call the live demo at **+1 (725) 242-4845**
+
+Call the number, talk to the voice agent naturally, and you should see the end-to-end system working: Twilio receives the call, Pipecat runs the voice loop, Nemotron handles the model path, Timbre records the trace, and the dashboard/eval harness captures the result.
+
+This is a hackathon demo line, not a crisis service. For a real emergency or crisis, call or text 988 in the United States.
+
 <img src="docs/timbre-banner.png" alt="Timbre banner showing a voice conversation passing through a safety checkpoint before human review" width="100%">
 
 **We are not building an AI therapist. We are building the safety system around crisis voice agents.**
