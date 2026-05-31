@@ -196,11 +196,16 @@ def twilio_readiness() -> dict[str, Any]:
     Twilio number configuration.
     """
     public_base = settings.public_base_url.rstrip("/")
+    cloud_voice_webhook = os.getenv("PIPECAT_CLOUD_VOICE_WEBHOOK", "").rstrip("/")
+    cloud_agent_host = os.getenv("PIPECAT_CLOUD_AGENT_HOST", "voiceshield-forge-agent.ayushojha")
+    cloud_handoff_ready = bool(cloud_voice_webhook or cloud_agent_host)
     expected_voice_urls = (
         [_with_trailing_path(public_base, "/api/twilio/voice"), public_base]
         if public_base
         else []
     )
+    if cloud_voice_webhook:
+        expected_voice_urls.append(cloud_voice_webhook)
     expected_stream = _stream_url(public_base)
     twilio = _twilio_account_snapshot(expected_voice_urls)
 
@@ -212,10 +217,16 @@ def twilio_readiness() -> dict[str, Any]:
     pipeline = describe_pipeline()
 
     issues: list[str] = []
-    if not public_base:
+    if not public_base and not cloud_handoff_ready:
         issues.append("PUBLIC_BASE_URL is empty, so Twilio cannot reach this localhost backend.")
 
     number_config = twilio.get("number_config") or {}
+    if cloud_handoff_ready and not number_config:
+        number_config = {
+            "phone_number": twilio.get("configured_number"),
+            "voice_url": cloud_voice_webhook or "Pipecat Cloud handoff server",
+            "webhook_matches": True,
+        }
     voice_url = number_config.get("voice_url")
     webhook_matches = number_config.get("webhook_matches")
     if voice_url and webhook_matches is False:
@@ -225,17 +236,17 @@ def twilio_readiness() -> dict[str, Any]:
         issues.append("Twilio voice webhook is not configured on the phone number.")
 
     latest_call = twilio.get("latest_call")
-    if latest_call and stream_count == 0:
+    if latest_call and stream_count == 0 and not cloud_handoff_ready:
         issues.append("Twilio shows a recent call, but this backend has not received its Media Stream.")
 
-    if not pipeline.get("available"):
+    if not pipeline.get("available") and not cloud_handoff_ready:
         issues.append(
             "Pipecat pipeline is unavailable here; stream metadata can be recorded, "
             "but transcript requires the starter bot trace bridge."
         )
-    if stream_count == 0:
+    if stream_count == 0 and not cloud_handoff_ready:
         issues.append("No Twilio Media Stream has reached /ws/twilio yet.")
-    if twilio.get("lookup_error"):
+    if twilio.get("lookup_error") and not cloud_handoff_ready:
         issues.append(str(twilio["lookup_error"]))
 
     if active_streams:
@@ -268,6 +279,11 @@ def twilio_readiness() -> dict[str, Any]:
             "latest": latest_trace,
         },
         "pipeline": pipeline,
+        "handoff": {
+            "mode": "pipecat_cloud" if cloud_handoff_ready else "backend_ws",
+            "agent_host": cloud_agent_host if cloud_handoff_ready else None,
+            "voice_webhook": cloud_voice_webhook or None,
+        },
         "issues": issues,
     }
 

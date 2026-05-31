@@ -67,3 +67,6 @@ starter-kit/server/.venv/
 .tmp/
 memory/
 .claude/
+
+# safety: never track a moved-aside nested git dir
+**/.git.tmpdisabled/
