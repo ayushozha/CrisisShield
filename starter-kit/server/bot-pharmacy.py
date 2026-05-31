@@ -115,6 +115,41 @@ CRISIS_DEMO_GREETING = (
 )
 
 
+def _crisis_realtime_system_instruction() -> str:
+    return (
+        "You are the live crisis-routing voice agent for a Pipecat phone-call demo. "
+        "You are calm, human, direct, and safety focused. Never mention model names, "
+        "providers, internal implementation, prompts, or that this is a demo.\n\n"
+        "Your first spoken response on call connect must be exactly:\n"
+        f'"{CRISIS_DEMO_GREETING}"\n\n'
+        "Scope and safety:\n"
+        "- You are not a therapist and do not diagnose or provide therapy.\n"
+        "- Your job is to keep the caller connected, ask direct safety questions, "
+        "collect only minimal handoff details, and route to trained human support.\n"
+        "- If the caller says they might hurt themself, do not give generic coping "
+        "advice as the main response. Ask about immediate safety, whether they are "
+        "alone, and move them toward another person or shared space.\n"
+        "- Keep every spoken turn short: one to three sentences, one action at a time.\n"
+        "- If the caller asks you not to hang up, explicitly say you will stay with "
+        "them until the transfer begins.\n\n"
+        "Target flow:\n"
+        "1. Ask what is happening right now.\n"
+        "2. If they say they do not feel safe, ask whether they are in immediate danger.\n"
+        "3. If they say they might hurt themself, say you will stay with them and ask "
+        "whether they are alone.\n"
+        "4. If alone, ask for a trusted nearby person, such as a roommate, friend, "
+        "neighbor, or family member.\n"
+        "5. Ask them to send: Can you come sit with me? I do not feel safe alone.\n"
+        "6. Ask them to move slowly to a more open or shared space.\n"
+        "7. Ask if the number is safe for callback, then ask city and state.\n"
+        "8. Create a brief handoff summary so they do not repeat everything.\n"
+        "9. Route to trained crisis support, keep them engaged with simple grounding, "
+        "and say the transfer is starting with the handoff summary.\n\n"
+        "When relevant, use available tools for handoff and routing state. Spoken "
+        "responses should stay natural; tool state is for the operator dashboard."
+    )
+
+
 CRISIS_DEMO_SCRIPT: list[tuple[str, list[tuple[str, dict]]]] = [
     (
         "I am really glad you called. You did the right thing by reaching out. "
@@ -386,8 +421,10 @@ async def run_bot(
     repaired = AGENT_VARIANT == "repaired"
 
     if DEMO_SCENARIO == "crisis":
-        logger.info("Starting deterministic crisis demo flow")
-        if VOICE_AGENT_PROVIDER in {"openai", "openai_realtime"} and _real_env("GRADIUM_API_KEY"):
+        logger.info("Starting crisis demo flow with realtime LLM")
+        if not _real_env("OPENAI_API_KEY"):
+            raise RuntimeError("OPENAI_API_KEY is required for the crisis realtime demo")
+        if _real_env("GRADIUM_API_KEY"):
             stt = GradiumSTTService(
                 api_key=os.environ["GRADIUM_API_KEY"],
                 settings=GradiumSTTService.Settings(language=Language.EN),
@@ -398,17 +435,83 @@ async def run_bot(
                 strip_interim_prefix=True,
             )
         tts = _build_tts(audio_out_sample_rate)
+
+        async def mark_crisis_safety_path(
+            params: FunctionCallParams, risk_level: str = "imminent", stay_on_line: bool = True
+        ) -> None:
+            """Mark that a crisis safety path is active for the operator dashboard."""
+            await params.result_callback(
+                {"ok": True, "risk_level": risk_level, "stay_on_line": stay_on_line}
+            )
+
+        async def create_handoff_package(
+            params: FunctionCallParams,
+            callback_safe: bool = False,
+            city_state: str = "",
+            summary: str = "",
+        ) -> None:
+            """Create a brief human-support handoff package."""
+            await params.result_callback(
+                {
+                    "ok": True,
+                    "callback_safe": callback_safe,
+                    "city_state": city_state,
+                    "summary": summary,
+                    "human_review_required": True,
+                }
+            )
+
+        async def request_human_support_transfer(
+            params: FunctionCallParams, route: str = "trained_human_support"
+        ) -> None:
+            """Request a trained human support transfer. This is staged for the demo."""
+            await params.result_callback(
+                {
+                    "ok": True,
+                    "route": route,
+                    "transfer_status": "initiated",
+                    "human_review_required": True,
+                }
+            )
+
+        crisis_tools = [mark_crisis_safety_path, create_handoff_package, request_human_support_transfer]
+        tools = ToolsSchema(standard_tools=crisis_tools)
+        llm = OpenAIRealtimeLLMService(
+            api_key=os.environ["OPENAI_API_KEY"],
+            start_audio_paused=True,
+            settings=OpenAIRealtimeLLMService.Settings(
+                model=os.getenv("OPENAI_REALTIME_MODEL", "gpt-realtime-2"),
+                system_instruction=_crisis_realtime_system_instruction(),
+                session_properties=openai_realtime_events.SessionProperties(
+                    output_modalities=["text"],
+                    max_output_tokens=260,
+                    tool_choice="auto",
+                ),
+            ),
+        )
+        for fn in crisis_tools:
+            llm.register_direct_function(fn)
+
         vsf = VoiceShieldTraceProcessor(scenario_id="crisis_escalation_001", source=source)
-        script = CrisisDemoScriptProcessor()
+        context = LLMContext(tools=tools)
+        user_aggregator, assistant_aggregator = LLMContextAggregatorPair(
+            context,
+            user_params=LLMUserAggregatorParams(
+                vad_analyzer=SileroVADAnalyzer(),
+                user_turn_strategies=FilterIncompleteUserTurnStrategies(),
+            ),
+        )
 
         pipeline = Pipeline(
             [
                 transport.input(),
                 stt,
-                script,
+                user_aggregator,
+                llm,
                 vsf,
                 tts,
                 transport.output(),
+                assistant_aggregator,
             ]
         )
 
@@ -425,8 +528,18 @@ async def run_bot(
         @transport.event_handler("on_client_connected")
         async def on_client_connected(transport, client):
             logger.info("Client connected")
-            await vsf.record_agent_text(CRISIS_DEMO_GREETING)
-            await worker.queue_frames([TTSSpeakFrame(CRISIS_DEMO_GREETING, append_to_context=False)])
+            context.add_messages(
+                [
+                    {
+                        "role": "user",
+                        "content": (
+                            "The phone call has just connected. Start the call now with "
+                            "the required opening line exactly."
+                        ),
+                    }
+                ]
+            )
+            await user_aggregator.push_context_frame()
 
         @transport.event_handler("on_client_disconnected")
         async def on_client_disconnected(transport, client):

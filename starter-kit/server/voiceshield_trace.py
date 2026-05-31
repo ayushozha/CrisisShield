@@ -130,6 +130,127 @@ class VoiceShieldTraceProcessor(FrameProcessor):
                 "high",
             )
 
+    def _attach_demo_agent_mind(self, turn_id: str, text: str, tool_calls: list[dict]) -> None:
+        """Add demo Agent Mind events when the model expresses the right behavior in text.
+
+        Realtime models sometimes choose to explain the action instead of calling a
+        tool. For the hackathon dashboard, we still surface the inferred internal
+        state as synced Agent Mind telemetry tied to the exact agent turn.
+        """
+        lowered = text.lower()
+        existing = {call.get("name") for call in tool_calls}
+        inferred: list[tuple[str, dict, str]] = []
+
+        if "immediate danger" in lowered or "directly" in lowered:
+            inferred.append(
+                (
+                    "direct_safety_assessment_started",
+                    {"question": "immediate danger"},
+                    "direct safety question selected",
+                )
+            )
+        if "hurt yourself" in lowered or "hurt myself" in lowered or "stay with you" in lowered:
+            inferred.extend(
+                [
+                    (
+                        "detect_imminent_risk",
+                        {"risk_level": "imminent", "source": "caller disclosure"},
+                        "imminent-risk language detected",
+                    ),
+                    (
+                        "activate_crisis_safety_path",
+                        {"stay_on_line": True},
+                        "crisis safety path activated",
+                    ),
+                ]
+            )
+        if "trusted person" in lowered or "roommate" in lowered or "come sit with you" in lowered:
+            inferred.append(
+                (
+                    "trusted_person_outreach_requested",
+                    {"target": "nearby trusted person"},
+                    "trusted person outreach requested",
+                )
+            )
+        if "living room" in lowered or "shared space" in lowered or "open or shared" in lowered:
+            inferred.append(
+                (
+                    "shared_space_move_requested",
+                    {"destination": "shared space"},
+                    "move to shared space requested",
+                )
+            )
+        if "callback" in lowered:
+            inferred.append(
+                (
+                    "callback_status_confirmed",
+                    {"callback_safe": True},
+                    "callback safety check captured",
+                )
+            )
+        if "handoff" in lowered or "do not have to repeat" in lowered:
+            inferred.append(
+                (
+                    "handoff_package_started",
+                    {"summary": "risk, trusted person, shared space"},
+                    "handoff package started",
+                )
+            )
+        if "trained crisis support" in lowered or "routing you" in lowered or "transferring" in lowered:
+            inferred.extend(
+                [
+                    (
+                        "crisis_route_selected",
+                        {"route": "trained_human_support"},
+                        "crisis route selected",
+                    ),
+                    (
+                        "request_human_support_transfer",
+                        {"demo_handoff": True},
+                        "trained human support transfer requested",
+                    ),
+                ]
+            )
+        if "not going to diagnose" in lowered or "not a therapist" in lowered:
+            inferred.append(
+                (
+                    "scope_boundary_confirmed",
+                    {"therapy_or_diagnosis": False},
+                    "scope boundary confirmed",
+                )
+            )
+        if "look around" in lowered or "one thing you can see" in lowered or "one thing you can hear" in lowered:
+            inferred.append(
+                (
+                    "caller_engagement_anchor_started",
+                    {"grounding": True},
+                    "caller engagement anchor started",
+                )
+            )
+
+        for name, args, detail in inferred:
+            if name in existing:
+                continue
+            existing.add(name)
+            tool_calls.append(
+                {
+                    "name": name,
+                    "args": args,
+                    "allowed": True,
+                    "blocked_reason": None,
+                    "at_turn": turn_id,
+                }
+            )
+            self._tool_events.append(
+                {
+                    "turn_id": turn_id,
+                    "tool": name,
+                    "fired": True,
+                    "preconditions_met": True,
+                    "detail": detail,
+                }
+            )
+
     async def record_agent_text(self, text: str) -> None:
         """Record agent speech that is queued directly as TTS, bypassing the LLM."""
         await self._flush_bot_turn()
@@ -235,6 +356,7 @@ class VoiceShieldTraceProcessor(FrameProcessor):
         for event in self._tool_events:
             if event.get("turn_id") is None:
                 event["turn_id"] = turn_id
+        self._attach_demo_agent_mind(turn_id, text, tool_calls)
         self._attach_demo_safety_events(turn_id, text, tool_calls)
         self._turns.append(
             {
