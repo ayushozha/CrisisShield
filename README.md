@@ -41,6 +41,21 @@ Timbre wraps a voice agent with a self-improving evaluation loop:
 
 The demo scenario is a 988-style crisis-support line. The baseline agent hears a caller say they may hurt themselves, but keeps chatting instead of escalating. Timbre catches the miss, creates a stricter escalation policy, generates harder crisis evals, and proves the repaired agent no longer misses that class of handoff.
 
+## Why This Is Mission Critical
+
+High-stakes voice agents do not fail only when they sound bad. They can sound calm, empathetic, and fluent while still making the wrong safety decision. In a crisis-style call, that means the agent may keep a person talking to software when the correct action is to assess safety, route to a trained human, and create a handoff package.
+
+That is why this application needs to exist. Teams cannot ship voice agents into sensitive workflows with only prompt reviews, dashboard demos, or "it sounded good when we tried it" testing. They need a harness that turns every dangerous conversation into:
+
+- a replayable trace of what the agent heard and did,
+- a scored safety evaluation,
+- a concrete repair,
+- harder regression tests,
+- a gate that blocks risky promotion,
+- and an audit trail for human review.
+
+Timbre is the layer that makes voice-agent safety operational. It does not replace human crisis support; it makes sure an autonomous voice agent knows when it must stop acting autonomous.
+
 ## Result
 
 These numbers are computed by the harness from the seeded demo run; they are not hardcoded into the UI.
@@ -148,15 +163,15 @@ Artifacts are written under `demo/seeded-runs/*`:
 
 Here is the short version before the deeper notes:
 
-| Tool | Where it appears | Why it is not just a logo |
+| Tool | How it makes the system work | Why it is mission critical |
 | --- | --- | --- |
-| **Cekura** | Baseline eval, regression eval, sponsor proof | It scores the safety behavior and gives the loop real eval identity. |
-| **NVIDIA Nemotron** | Streaming ASR and LLM reasoning | It proves the agent heard the risk phrase and powers the model path being repaired. |
-| **Pipecat** | Voice runtime and trace source | It connects STT, LLM, tools, TTS, Daily, and Twilio, then emits the frames the harness audits. |
-| **Daily** | Realtime call entry | It provides the web-call/media-room path for the live voice experience. |
-| **Twilio** | PSTN entry and simulated crisis handoff | It provides phone-call metadata and the handoff package shape without dialing a real emergency line. |
-| **AWS** | Persistence target | It stores the reports and run index so the result is auditable. |
-| **Gradium** | Voice output | It speaks the agent response in the Pipecat pipeline. |
+| **Cekura** | Runs the baseline and regression evals, scores crisis-safety behavior, and gives each run real eval identity. | Without an external scoring loop, "the agent sounded empathetic" can hide a missed escalation. Cekura turns behavior into measurable safety evidence. |
+| **NVIDIA Nemotron** | Provides the streaming ASR and reasoning-model path for the agent under test. | The harness must prove whether the agent actually heard the risky phrase. If ASR is clean and the handoff still fails, the bug is policy/reasoning, not transcription. |
+| **Pipecat** | Connects STT, LLM, tools, TTS, Daily, and Twilio into the realtime voice pipeline, then emits frames the harness can audit. | A safety system for voice agents needs the real voice runtime, not a text-only simulation. Pipecat gives us the call-level evidence. |
+| **Daily** | Provides the realtime web-call/media-room path for talking to the agent live. | Judges and builders can experience the product as an actual conversation, which is the only way to judge timing, interruptions, and handoff feel. |
+| **Twilio** | Provides PSTN call entry and the simulated crisis-handoff package shape. | High-stakes support often starts as a phone call. Twilio lets the system prove phone ingress and handoff metadata without placing a real emergency call. |
+| **AWS** | Stores reports, run indexes, and proof artifacts for the dashboard. | Safety claims need durable evidence. AWS gives the loop an audit trail instead of a one-off demo screen. |
+| **Gradium** | Speaks the agent response in the Pipecat pipeline. | Voice quality affects whether callers stay engaged long enough for the system to detect risk and route correctly. |
 
 ### Cekura
 
