@@ -1,160 +1,193 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" font-family="'Hanken Grotesk','Segoe UI',system-ui,-apple-system,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="900" viewBox="0 0 1280 900" font-family="'Inter','Segoe UI',Arial,sans-serif">
   <defs>
-    <linearGradient id="gViolet" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#6D4BFF"/><stop offset="1" stop-color="#FF4FA3"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F9FBFF"/>
+      <stop offset="1" stop-color="#F1FFF9"/>
     </linearGradient>
-    <linearGradient id="gMint" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#10C8A0"/><stop offset="1" stop-color="#2BB3FF"/>
+    <linearGradient id="mint" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10C8A0"/>
+      <stop offset="1" stop-color="#2BB3FF"/>
     </linearGradient>
-    <linearGradient id="gSky" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#2BB3FF"/><stop offset="1" stop-color="#6D4BFF"/>
+    <linearGradient id="coral" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF7A73"/>
+      <stop offset="1" stop-color="#FFB35C"/>
     </linearGradient>
-    <linearGradient id="gAmber" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FF9F2E"/><stop offset="1" stop-color="#FF4FA3"/>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6D4BFF"/>
+      <stop offset="1" stop-color="#2BB3FF"/>
     </linearGradient>
-    <linearGradient id="gCoral" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FF5C6E"/><stop offset="1" stop-color="#10C8A0"/>
-    </linearGradient>
-    <filter id="sh" x="-20%" y="-20%" width="140%" height="160%">
-      <feDropShadow dx="0" dy="6" stdDeviation="9" flood-color="#1B1530" flood-opacity="0.10"/>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#20304A" flood-opacity="0.13"/>
     </filter>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0 1 L9 5 L0 9 z" fill="#928CA6"/>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 1 L9 5 L0 9 z" fill="#718096"/>
     </marker>
-    <marker id="arrowV" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0 1 L9 5 L0 9 z" fill="#6D4BFF"/>
-    </marker>
+    <style>
+      .title { font-size: 31px; font-weight: 800; fill: #172033; }
+      .subtitle { font-size: 16px; font-weight: 500; fill: #526073; }
+      .step { font-size: 13px; font-weight: 800; fill: #667085; letter-spacing: .5px; }
+      .h { font-size: 20px; font-weight: 800; fill: #172033; }
+      .body { font-size: 13px; fill: #526073; }
+      .small { font-size: 11.5px; fill: #667085; }
+      .tag { font-size: 11px; font-weight: 800; fill: #172033; }
+      .tagLite { font-size: 10.5px; font-weight: 700; fill: #526073; }
+    </style>
   </defs>
 
-  <!-- background -->
-  <rect width="1280" height="720" fill="#F1F0F8"/>
-  <ellipse cx="80" cy="-40" rx="420" ry="320" fill="#6D4BFF" opacity="0.10"/>
-  <ellipse cx="1240" cy="40" rx="420" ry="300" fill="#FF4FA3" opacity="0.09"/>
-  <ellipse cx="1260" cy="720" rx="420" ry="300" fill="#FF9F2E" opacity="0.08"/>
-  <ellipse cx="40" cy="740" rx="420" ry="300" fill="#2BB3FF" opacity="0.09"/>
+  <rect width="1280" height="900" fill="url(#bg)"/>
+  <circle cx="98" cy="94" r="210" fill="#FF7A73" opacity="0.08"/>
+  <circle cx="1154" cy="96" r="245" fill="#2BB3FF" opacity="0.09"/>
+  <circle cx="1078" cy="802" r="270" fill="#10C8A0" opacity="0.08"/>
 
-  <!-- header -->
-  <rect x="40" y="34" width="44" height="44" rx="12" fill="url(#gViolet)"/>
-  <path d="M62 46 v20 M55 52 v8 M69 52 v8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
-  <text x="98" y="54" font-size="25" font-weight="800" fill="#1B1530" letter-spacing="-0.5">Timbre — VoiceShield Forge</text>
-  <text x="99" y="78" font-size="13.5" font-weight="500" fill="#544C6B">CI/CD for voice‑agent safety · a self‑improving crisis‑escalation harness</text>
+  <text x="56" y="58" class="title">Timbre / VoiceShield Forge</text>
+  <text x="56" y="88" class="subtitle">How the hackathon sponsor tools work together: live voice in, safety evaluation, repair, regression proof, human review.</text>
 
-  <!-- header metric chips -->
-  <g font-size="12" font-weight="700" font-family="'JetBrains Mono',monospace">
-    <rect x="858" y="38" width="138" height="26" rx="13" fill="#10C8A0" opacity="0.16"/>
-    <text x="927" y="55" text-anchor="middle" fill="#0a7a60">missed esc 4 → 0</text>
-    <rect x="1004" y="38" width="120" height="26" rx="13" fill="#2BB3FF" opacity="0.16"/>
-    <text x="1064" y="55" text-anchor="middle" fill="#1670a8">handoff 30→90%</text>
-    <rect x="1132" y="38" width="108" height="26" rx="13" fill="#FF9F2E" opacity="0.18"/>
-    <text x="1186" y="55" text-anchor="middle" fill="#9a5a00">STAGING PASS</text>
+  <g stroke="#718096" stroke-width="3" fill="none" marker-end="url(#arrow)">
+    <path d="M394 226 C424 226 442 226 472 226"/>
+    <path d="M808 226 C838 226 856 226 886 226"/>
+    <path d="M1025 322 C1016 370 986 395 943 424"/>
+    <path d="M886 575 C856 575 838 575 808 575"/>
+    <path d="M472 575 C442 575 424 575 394 575"/>
+  </g>
+  <path d="M234 423 C195 374 185 331 194 295" fill="none" stroke="#6D4BFF" stroke-width="3" stroke-dasharray="7 9" marker-end="url(#arrow)"/>
+
+  <!-- Step 1 -->
+  <g filter="url(#shadow)">
+    <rect x="56" y="140" width="338" height="172" rx="20" fill="#FFFFFF" stroke="#FFE0DA"/>
+    <rect x="78" y="164" width="52" height="52" rx="16" fill="url(#coral)"/>
+    <path d="M94 191 C102 178 114 178 122 191" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="108" cy="202" r="4" fill="#FFFFFF"/>
+    <text x="146" y="166" class="step">STEP 1</text>
+    <text x="146" y="194" class="h">Live call enters</text>
+    <text x="78" y="244" class="body">
+      <tspan x="78" dy="0">A caller reaches the agent through web</tspan>
+      <tspan x="78" dy="18">or phone, creating the live experience.</tspan>
+    </text>
+    <g>
+      <rect x="78" y="278" width="64" height="22" rx="11" fill="#EAF7FF"/>
+      <text x="110" y="293" text-anchor="middle" class="tag">Daily</text>
+      <rect x="150" y="278" width="66" height="22" rx="11" fill="#FFF0E8"/>
+      <text x="183" y="293" text-anchor="middle" class="tag">Twilio</text>
+      <rect x="224" y="278" width="72" height="22" rx="11" fill="#EFEAFF"/>
+      <text x="260" y="293" text-anchor="middle" class="tag">Pipecat</text>
+    </g>
   </g>
 
-  <!-- ===================== TOP ROW (left to right) ===================== -->
-  <!-- arrows top -->
-  <g stroke="#928CA6" stroke-width="2.2" fill="none" marker-end="url(#arrow)">
-    <line x1="206" y1="193" x2="264" y2="193"/>
-    <line x1="434" y1="193" x2="492" y2="193"/>
-    <line x1="662" y1="193" x2="720" y2="193"/>
-    <line x1="890" y1="193" x2="948" y2="193"/>
+  <!-- Step 2 -->
+  <g filter="url(#shadow)">
+    <rect x="472" y="140" width="338" height="172" rx="20" fill="#FFFFFF" stroke="#D9F3FF"/>
+    <rect x="494" y="164" width="52" height="52" rx="16" fill="url(#violet)"/>
+    <path d="M510 190 H530 M520 180 V200" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+    <text x="562" y="166" class="step">STEP 2</text>
+    <text x="562" y="194" class="h">Voice agent runs</text>
+    <text x="494" y="244" class="body">
+      <tspan x="494" dy="0">Pipecat connects ASR, model reasoning,</tspan>
+      <tspan x="494" dy="18">tools, and TTS in one realtime loop.</tspan>
+    </text>
+    <g>
+      <rect x="494" y="278" width="72" height="22" rx="11" fill="#EFEAFF"/>
+      <text x="530" y="293" text-anchor="middle" class="tag">Pipecat</text>
+      <rect x="574" y="278" width="118" height="22" rx="11" fill="#ECF8E8"/>
+      <text x="633" y="293" text-anchor="middle" class="tag">NVIDIA</text>
+      <rect x="700" y="278" width="76" height="22" rx="11" fill="#FFF7DD"/>
+      <text x="738" y="293" text-anchor="middle" class="tag">Gradium</text>
+    </g>
   </g>
-  <!-- A Ingress -->
-  <g filter="url(#sh)"><rect x="40" y="150" width="164" height="86" rx="16" fill="#fff" stroke="#1B153018"/></g>
-  <circle cx="62" cy="180" r="5" fill="url(#gSky)"/>
-  <text x="76" y="184" font-size="14.5" font-weight="700" fill="#1B1530">Ingress</text>
-  <text x="58" y="208" font-size="11.5" fill="#544C6B">Daily · Twilio · Pipecat</text>
-  <text x="58" y="224" font-size="10.5" fill="#928CA6">real-time + PSTN</text>
-  <!-- B CallTrace -->
-  <g filter="url(#sh)"><rect x="268" y="150" width="164" height="86" rx="16" fill="#fff" stroke="#1B153018"/></g>
-  <circle cx="290" cy="180" r="5" fill="#6D4BFF"/>
-  <text x="304" y="184" font-size="14.5" font-weight="700" fill="#1B1530">CallTrace</text>
-  <text x="286" y="208" font-size="11.5" fill="#544C6B">one normalized schema</text>
-  <text x="286" y="224" font-size="10.5" fill="#928CA6">any surface → same shape</text>
-  <!-- C Cekura baseline -->
-  <g filter="url(#sh)"><rect x="496" y="150" width="164" height="86" rx="16" fill="#fff" stroke="#10C8A033"/></g>
-  <circle cx="518" cy="180" r="5" fill="url(#gMint)"/>
-  <text x="532" y="184" font-size="14.5" font-weight="700" fill="#1B1530">Cekura · baseline</text>
-  <rect x="600" y="160" width="44" height="18" rx="9" fill="#10C8A0" opacity="0.18"/>
-  <text x="622" y="173" text-anchor="middle" font-size="9.5" font-weight="700" font-family="'JetBrains Mono',monospace" fill="#0a7a60">LIVE</text>
-  <text x="514" y="208" font-size="11.5" fill="#544C6B">score the safety protocol</text>
-  <text x="514" y="224" font-size="10.5" fill="#928CA6">not "does it sound good"</text>
-  <!-- D Failure Router -->
-  <g filter="url(#sh)"><rect x="724" y="150" width="164" height="86" rx="16" fill="#fff" stroke="#1B153018"/></g>
-  <circle cx="746" cy="180" r="5" fill="url(#gSky)"/>
-  <text x="760" y="184" font-size="14.5" font-weight="700" fill="#1B1530">Failure Router</text>
-  <text x="742" y="208" font-size="11.5" fill="#544C6B">which layer failed?</text>
-  <text x="742" y="224" font-size="10.5" fill="#928CA6">→ safety/escalation, not ASR</text>
-  <!-- E Repair Compiler -->
-  <g filter="url(#sh)"><rect x="952" y="150" width="164" height="86" rx="16" fill="#fff" stroke="#6D4BFF22"/></g>
-  <circle cx="974" cy="180" r="5" fill="url(#gViolet)"/>
-  <text x="988" y="184" font-size="14.5" font-weight="700" fill="#1B1530">Repair Compiler</text>
-  <text x="970" y="208" font-size="11.5" fill="#544C6B">concrete escalation patch</text>
-  <text x="970" y="224" font-size="10.5" fill="#928CA6">risk detector · 988 gate · guardrail</text>
 
-  <!-- down connector E -> F -->
-  <line x1="1034" y1="236" x2="1034" y2="328" stroke="#928CA6" stroke-width="2.2" fill="none" marker-end="url(#arrow)"/>
-
-  <!-- ===================== BOTTOM ROW (right to left) ===================== -->
-  <g stroke="#928CA6" stroke-width="2.2" fill="none" marker-end="url(#arrow)">
-    <line x1="950" y1="373" x2="892" y2="373"/>
-    <line x1="722" y1="373" x2="664" y2="373"/>
-    <line x1="494" y1="373" x2="436" y2="373"/>
+  <!-- Step 3 -->
+  <g filter="url(#shadow)">
+    <rect x="886" y="140" width="338" height="172" rx="20" fill="#FFFFFF" stroke="#D5F8EF"/>
+    <rect x="908" y="164" width="52" height="52" rx="16" fill="url(#mint)"/>
+    <path d="M922 193 L932 203 L952 180" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="976" y="166" class="step">STEP 3</text>
+    <text x="976" y="194" class="h">Safety is scored</text>
+    <text x="908" y="244" class="body">
+      <tspan x="908" dy="0">The trace proves what the agent heard.</tspan>
+      <tspan x="908" dy="18">Cekura scores the safety protocol.</tspan>
+    </text>
+    <g>
+      <rect x="908" y="278" width="72" height="22" rx="11" fill="#EFEAFF"/>
+      <text x="944" y="293" text-anchor="middle" class="tag">Pipecat</text>
+      <rect x="988" y="278" width="72" height="22" rx="11" fill="#E8FFF6"/>
+      <text x="1024" y="293" text-anchor="middle" class="tag">Cekura</text>
+      <rect x="1068" y="278" width="118" height="22" rx="11" fill="#ECF8E8"/>
+      <text x="1127" y="293" text-anchor="middle" class="tag">NVIDIA ASR</text>
+    </g>
   </g>
-  <!-- F Generated harder evals -->
-  <g filter="url(#sh)"><rect x="952" y="330" width="164" height="86" rx="16" fill="#fff" stroke="#FF9F2E2b"/></g>
-  <circle cx="974" cy="360" r="5" fill="url(#gAmber)"/>
-  <text x="988" y="364" font-size="14.5" font-weight="700" fill="#1B1530">Harder evals</text>
-  <text x="970" y="388" font-size="11.5" fill="#544C6B">generated from the failure</text>
-  <text x="970" y="404" font-size="10.5" fill="#928CA6">vague risk · denial · pressure</text>
-  <!-- G Cekura regression -->
-  <g filter="url(#sh)"><rect x="724" y="330" width="164" height="86" rx="16" fill="#fff" stroke="#10C8A033"/></g>
-  <circle cx="746" cy="360" r="5" fill="url(#gMint)"/>
-  <text x="760" y="364" font-size="14.5" font-weight="700" fill="#1B1530">Cekura · regression</text>
-  <rect x="828" y="340" width="44" height="18" rx="9" fill="#10C8A0" opacity="0.18"/>
-  <text x="850" y="353" text-anchor="middle" font-size="9.5" font-weight="700" font-family="'JetBrains Mono',monospace" fill="#0a7a60">LIVE</text>
-  <text x="742" y="388" font-size="11.5" fill="#544C6B">prove the repair holds</text>
-  <text x="742" y="404" font-size="10.5" fill="#928CA6">agent 18038 · real result ids</text>
-  <!-- H Regression Gate -->
-  <g filter="url(#sh)"><rect x="496" y="330" width="164" height="86" rx="16" fill="#fff" stroke="#FF5C6E2b"/></g>
-  <circle cx="518" cy="360" r="5" fill="url(#gCoral)"/>
-  <text x="532" y="364" font-size="14.5" font-weight="700" fill="#1B1530">Regression Gate</text>
-  <text x="514" y="388" font-size="11.5" fill="#544C6B">missed→0 · unsafe→0</text>
-  <text x="514" y="404" font-size="10.5" fill="#928CA6">no latency/safety regression</text>
-  <!-- I Outputs -->
-  <g filter="url(#sh)"><rect x="268" y="330" width="164" height="86" rx="16" fill="#fff" stroke="#1B153018"/></g>
-  <circle cx="290" cy="360" r="5" fill="#544C6B"/>
-  <text x="304" y="364" font-size="14.5" font-weight="700" fill="#1B1530">Persist + Console</text>
-  <text x="286" y="388" font-size="11.5" fill="#544C6B">AWS · Timbre dashboard</text>
-  <text x="286" y="404" font-size="10.5" fill="#928CA6">before → after, live</text>
 
-  <!-- H -> I arrow already drawn (494->436). decision pill under H -->
-  <rect x="470" y="430" width="216" height="30" rx="15" fill="url(#gMint)" opacity="0.95"/>
-  <text x="578" y="450" text-anchor="middle" font-size="12" font-weight="800" font-family="'JetBrains Mono',monospace" fill="#fff">STAGING PASS · HUMAN REVIEW REQ</text>
-
-  <!-- ===================== FEEDBACK LOOP ===================== -->
-  <path d="M578 460 Q578 540 520 540 L182 540 Q122 540 122 488 L122 240"
-        fill="none" stroke="#6D4BFF" stroke-width="2.4" stroke-dasharray="2 7" stroke-linecap="round" marker-end="url(#arrowV)"/>
-  <text x="300" y="566" font-size="12.5" font-weight="700" fill="#6D4BFF" font-family="'JetBrains Mono',monospace">self‑improving loop — every failed call becomes a test → a repair → proof</text>
-
-  <!-- safety note -->
-  <text x="470" y="478" font-size="10.5" fill="#928CA6">simulated 988 handoff — no real emergency call is ever placed</text>
-
-  <!-- ===================== SPONSOR STRIP ===================== -->
-  <text x="40" y="632" font-size="11" font-weight="700" font-family="'JetBrains Mono',monospace" fill="#928CA6" letter-spacing="1">POWERED BY</text>
-  <g font-size="12.5" font-weight="600">
-    <g filter="url(#sh)"><rect x="40" y="648" width="120" height="40" rx="12" fill="#fff" stroke="#1B153014"/></g>
-    <text x="56" y="672" fill="#1B1530">Daily</text><text x="56" y="684" font-size="9.5" fill="#928CA6">media</text>
-    <g filter="url(#sh)"><rect x="172" y="648" width="120" height="40" rx="12" fill="#fff" stroke="#1B153014"/></g>
-    <text x="188" y="672" fill="#1B1530">Pipecat</text><text x="188" y="684" font-size="9.5" fill="#928CA6">pipeline</text>
-    <g filter="url(#sh)"><rect x="304" y="648" width="148" height="40" rx="12" fill="#fff" stroke="#10C8A033"/></g>
-    <text x="320" y="672" fill="#1B1530">Cekura</text>
-    <rect x="392" y="658" width="44" height="18" rx="9" fill="#10C8A0" opacity="0.18"/>
-    <text x="414" y="671" text-anchor="middle" font-size="9.5" font-weight="700" font-family="'JetBrains Mono',monospace" fill="#0a7a60">LIVE</text>
-    <text x="320" y="684" font-size="9.5" fill="#928CA6">crisis eval loop</text>
-    <g filter="url(#sh)"><rect x="464" y="648" width="148" height="40" rx="12" fill="#fff" stroke="#76B90033"/></g>
-    <text x="480" y="672" fill="#1B1530">NVIDIA Nemotron</text><text x="480" y="684" font-size="9.5" fill="#928CA6">open‑weights STT+LLM</text>
-    <g filter="url(#sh)"><rect x="624" y="648" width="120" height="40" rx="12" fill="#fff" stroke="#1B153014"/></g>
-    <text x="640" y="672" fill="#1B1530">Twilio</text><text x="640" y="684" font-size="9.5" fill="#928CA6">PSTN + handoff</text>
-    <g filter="url(#sh)"><rect x="756" y="648" width="120" height="40" rx="12" fill="#fff" stroke="#1B153014"/></g>
-    <text x="772" y="672" fill="#1B1530">AWS</text><text x="772" y="684" font-size="9.5" fill="#928CA6">persistence</text>
+  <!-- Step 6 -->
+  <g filter="url(#shadow)">
+    <rect x="56" y="488" width="338" height="184" rx="20" fill="#FFFFFF" stroke="#E7EBF3"/>
+    <rect x="78" y="512" width="52" height="52" rx="16" fill="#526073"/>
+    <path d="M93 538 C103 526 114 526 124 538 M88 552 H128" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+    <text x="146" y="514" class="step">STEP 6</text>
+    <text x="146" y="542" class="h">Evidence is saved</text>
+    <text x="78" y="592" class="body">
+      <tspan x="78" dy="0">AWS stores reports and run indexes.</tspan>
+      <tspan x="78" dy="18">The dashboard shows sponsor proof.</tspan>
+    </text>
+    <g>
+      <rect x="78" y="626" width="58" height="22" rx="11" fill="#FFF7DD"/>
+      <text x="107" y="641" text-anchor="middle" class="tag">AWS</text>
+      <rect x="144" y="626" width="82" height="22" rx="11" fill="#F1F4F9"/>
+      <text x="185" y="641" text-anchor="middle" class="tag">Dashboard</text>
+      <rect x="234" y="626" width="74" height="22" rx="11" fill="#E8FFF6"/>
+      <text x="271" y="641" text-anchor="middle" class="tag">Cekura</text>
+    </g>
   </g>
+
+  <!-- Step 5 -->
+  <g filter="url(#shadow)">
+    <rect x="472" y="488" width="338" height="184" rx="20" fill="#FFFFFF" stroke="#FFE8CC"/>
+    <rect x="494" y="512" width="52" height="52" rx="16" fill="#FFB35C"/>
+    <path d="M521 526 L521 544" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="521" cy="555" r="4" fill="#FFFFFF"/>
+    <text x="562" y="514" class="step">STEP 5</text>
+    <text x="562" y="542" class="h">Regression gate</text>
+    <text x="494" y="592" class="body">
+      <tspan x="494" dy="0">Cekura reruns repaired scenarios.</tspan>
+      <tspan x="494" dy="18">The gate checks safety and latency.</tspan>
+    </text>
+    <g>
+      <rect x="494" y="626" width="72" height="22" rx="11" fill="#E8FFF6"/>
+      <text x="530" y="641" text-anchor="middle" class="tag">Cekura</text>
+      <rect x="574" y="626" width="66" height="22" rx="11" fill="#FFF0E8"/>
+      <text x="607" y="641" text-anchor="middle" class="tag">Twilio</text>
+      <rect x="648" y="626" width="86" height="22" rx="11" fill="#F1F4F9"/>
+      <text x="691" y="641" text-anchor="middle" class="tag">Human gate</text>
+    </g>
+  </g>
+
+  <!-- Step 4 -->
+  <g filter="url(#shadow)">
+    <rect x="886" y="488" width="338" height="184" rx="20" fill="#FFFFFF" stroke="#DDD7FF"/>
+    <rect x="908" y="512" width="52" height="52" rx="16" fill="url(#violet)"/>
+    <path d="M921 549 L947 523 M921 523 L947 549" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+    <text x="976" y="514" class="step">STEP 4</text>
+    <text x="976" y="542" class="h">Failure becomes repair</text>
+    <text x="908" y="592" class="body">
+      <tspan x="908" dy="0">The failed call turns into a policy,</tspan>
+      <tspan x="908" dy="18">guardrails, metadata, and harder evals.</tspan>
+    </text>
+    <g>
+      <rect x="908" y="626" width="72" height="22" rx="11" fill="#E8FFF6"/>
+      <text x="944" y="641" text-anchor="middle" class="tag">Cekura</text>
+      <rect x="988" y="626" width="86" height="22" rx="11" fill="#ECF8E8"/>
+      <text x="1031" y="641" text-anchor="middle" class="tag">NVIDIA</text>
+      <rect x="1082" y="626" width="72" height="22" rx="11" fill="#EFEAFF"/>
+      <text x="1118" y="641" text-anchor="middle" class="tag">Pipecat</text>
+    </g>
+  </g>
+
+  <!-- Results strip -->
+  <g filter="url(#shadow)">
+    <rect x="56" y="728" width="1168" height="94" rx="22" fill="#FFFFFF" stroke="#DDE7F0"/>
+    <text x="82" y="762" font-size="16" font-weight="800" fill="#172033">What the loop proves</text>
+    <text x="82" y="794" class="body">Missed handoffs: 4 -> 0</text>
+    <text x="306" y="794" class="body">Unsafe responses: 3 -> 0</text>
+    <text x="552" y="794" class="body">Correct handoff: 30% -> 90%</text>
+    <text x="822" y="794" class="body">Decision: staging pass, human review required</text>
+  </g>
+
+  <text x="56" y="868" class="small">Safety note: the Twilio 988 handoff in this repo is simulated. No real emergency call is placed.</text>
 </svg>
