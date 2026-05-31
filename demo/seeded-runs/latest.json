@@ -1,0 +1,11 @@
+{
+  "run_id": "demo_001",
+  "objects": {
+    "trace.json": "s3://voiceforge-fixture/runs/demo_001/trace.json",
+    "trace-secondary.json": "s3://voiceforge-fixture/runs/demo_001/trace-secondary.json",
+    "eval-report.json": "s3://voiceforge-fixture/runs/demo_001/eval-report.json",
+    "repair-pack.json": "s3://voiceforge-fixture/runs/demo_001/repair-pack.json",
+    "sponsor-proof.json": "s3://voiceforge-fixture/runs/demo_001/sponsor-proof.json",
+    "nvidia-repair.json": "s3://voiceforge-fixture/runs/demo_001/nvidia-repair.json"
+  }
+}

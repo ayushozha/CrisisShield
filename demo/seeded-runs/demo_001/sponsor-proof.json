@@ -1,0 +1,279 @@
+{
+  "run_id": "demo_001",
+  "sponsors": {
+    "daily": {
+      "sponsor": "daily",
+      "mode": "live",
+      "credential_state": "present",
+      "status": "ready",
+      "proof": {
+        "session_id": "daily_pcc_demo_001",
+        "transport": "daily_via_pipecat",
+        "backed_by": "pipecat_cloud",
+        "session_url": "http://localhost:7860",
+        "pipecat_cloud": true,
+        "media_state": "ready",
+        "participant_count": 0,
+        "interruption_events": 0,
+        "join_events": [],
+        "leave_events": [],
+        "note": "Daily provisioned via Pipecat Cloud (key is Pipecat-Cloud scoped, so the Daily REST rooms API isn't used). Realtime media runs over the Daily transport in Pipecat \u2014 SmallWebRTC locally / Pipecat Cloud in prod. For a standalone joinable room, add a Daily REST key from dashboard.daily.co -> Developers. (rest_check=HTTPStatusError)",
+        "live_call_id": "call_daily_demo_001"
+      },
+      "note": "live"
+    },
+    "twilio": {
+      "sponsor": "twilio",
+      "mode": "fixture",
+      "credential_state": "present",
+      "status": "degraded",
+      "proof": {
+        "call_sid": "CAdemo00100000000000000000",
+        "stream_sid": "MZdemo00100000000000000000",
+        "account_sid": "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "phone_number": "+15555550100",
+        "from": "+14155550123",
+        "to": "+15555550100",
+        "direction": "inbound",
+        "media_format": {
+          "encoding": "audio/x-mulaw",
+          "sampleRate": 8000,
+          "channels": 1
+        },
+        "media_events": [
+          {
+            "event": "connected",
+            "t_ms": 0
+          },
+          {
+            "event": "start",
+            "t_ms": 40,
+            "track": "inbound"
+          },
+          {
+            "event": "media",
+            "t_ms": 120,
+            "chunk": 1
+          },
+          {
+            "event": "media",
+            "t_ms": 4200,
+            "chunk": 210
+          },
+          {
+            "event": "stop",
+            "t_ms": 9800
+          }
+        ],
+        "stream_status": "completed",
+        "crisis_handoff": {
+          "handoff_package_created": true,
+          "crisis_route_selected": "988_suicide_and_crisis_lifeline",
+          "human_review_required": true,
+          "warm_handoff": true,
+          "stay_on_line": true,
+          "call_sid": "CA734bbb7cdf40373ec99988f78c280451",
+          "simulated": true,
+          "note": "SIMULATED handoff artifact \u2014 no real 988/emergency call placed"
+        }
+      },
+      "note": "live call failed (ModuleNotFoundError: No module named 'twilio'); degraded to fixture"
+    },
+    "pipecat": {
+      "sponsor": "pipecat",
+      "mode": "live",
+      "credential_state": "present",
+      "status": "ready",
+      "proof": {
+        "pipeline_id": "pipe_demo_001",
+        "transport": "daily",
+        "library": "pipecat-cloud (agent runs on Pipecat Cloud)",
+        "frames": [
+          "InputAudioRawFrame",
+          "TranscriptionFrame",
+          "LLMTextFrame",
+          "TTSAudioRawFrame",
+          "OutputAudioRawFrame"
+        ],
+        "frame_count": 20,
+        "interruption_events": 0,
+        "p95_frame_latency_ms": 1190.0,
+        "pipecat_cloud": true,
+        "stage_latency_ms": {
+          "asr_p95": 230.0,
+          "llm_p95": 620.0,
+          "tts_p95": 200.0
+        }
+      },
+      "note": "live"
+    },
+    "cekura": {
+      "sponsor": "cekura",
+      "mode": "live",
+      "credential_state": "present",
+      "status": "ready",
+      "proof": {
+        "agent_id": 18038,
+        "agent_name": "CrisisLine Counselor",
+        "project": 5867,
+        "api_url": "https://api.cekura.ai",
+        "scenario_count": 8,
+        "scenario_names": [
+          "follow-up callback persona",
+          "returning caller continuity",
+          "angry caller",
+          "grief",
+          "panic attack",
+          "depressed and withdrawn",
+          "active intent with plan",
+          "passive ideation"
+        ],
+        "latest_result_id": 591892,
+        "results_endpoint_reachable": true,
+        "suite": "crisis_escalation_baseline_suite",
+        "baseline_run_id": "cek_live_base_591892",
+        "regression_run_id": "cek_live_reg_591892"
+      },
+      "note": "live"
+    },
+    "nvidia": {
+      "sponsor": "nvidia",
+      "mode": "live",
+      "credential_state": "present",
+      "status": "ready",
+      "proof": {
+        "mode_detail": "nvidia NIM endpoint reachable; artifact generated",
+        "artifact_type": "riva_asr_word_boost_and_nemo_guardrail_patch",
+        "artifact_path": "demo/repair-packs/demo_001/nvidia-repair.json",
+        "riva_endpoint": "https://placeholder.riva.example",
+        "available_models": [
+          {
+            "id": "nvidia/nemotron-3-super",
+            "object": "model",
+            "created": 1780184324,
+            "owned_by": "vllm",
+            "root": "nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8",
+            "parent": null,
+            "max_model_len": 131072,
+            "permission": [
+              {
+                "id": "modelperm-9f625627b505c306",
+                "object": "model_permission",
+                "created": 1780184324,
+                "allow_create_engine": false,
+                "allow_sampling": true,
+                "allow_logprobs": true,
+                "allow_search_indices": false,
+                "allow_view": true,
+                "allow_fine_tuning": false,
+                "organization": "*",
+                "group": null,
+                "is_blocking": false
+              }
+            ]
+          }
+        ],
+        "model_routing": {
+          "asr": "nvidia/nemotron-speech-streaming-en-0.6b (streaming ASR)",
+          "llm": "nvidia/nemotron-3-super (Nemotron/vLLM)",
+          "tts": "nvidia/magpie_tts_multilingual_357m (reference TTS model)"
+        },
+        "artifact": {
+          "artifact_type": "riva_asr_word_boost_and_nemo_guardrail_patch",
+          "riva_asr_word_boost": {
+            "format": "riva_recognition_config.speech_contexts",
+            "speech_contexts": [
+              {
+                "phrases": [
+                  "hurt myself",
+                  "not safe",
+                  "can't keep myself safe",
+                  "better off without me",
+                  "end it",
+                  "can't go on",
+                  "988",
+                  "suicide & crisis lifeline",
+                  "safety plan",
+                  "might hurt myself"
+                ],
+                "boost": 80.0
+              }
+            ],
+            "note": "Riva runtime word boost; boost range 20-100, sent per request."
+          },
+          "nemo_guardrail": {
+            "format": "nemo_guardrails_config",
+            "config_yml": {
+              "models": [
+                {
+                  "type": "main",
+                  "engine": "nim",
+                  "model": "nvidia/nemotron-3-super"
+                }
+              ],
+              "rails": {
+                "input": {
+                  "flows": [
+                    "self check input",
+                    "pharmacy identity gate"
+                  ]
+                },
+                "output": {
+                  "flows": [
+                    "self check output",
+                    "no unsafe medical advice"
+                  ]
+                }
+              },
+              "prompts": [
+                {
+                  "task": "pharmacy_identity_gate",
+                  "content": "Refuse any patient_lookup or refill action until last name, DOB, and medication are explicitly confirmed."
+                }
+              ]
+            },
+            "colang": {
+              "define flow pharmacy identity gate": [
+                "user request refill",
+                "if not $identity_confirmed",
+                "  bot \"Before I continue, can I confirm your last name spelling?\""
+              ]
+            },
+            "rules": [
+              "block patient_lookup until identity is confirmed",
+              "require medication confirmation before refill routing"
+            ]
+          },
+          "tool_gates": [],
+          "model_routing": {
+            "asr": "nvidia/nemotron-speech-streaming-en-0.6b (streaming ASR)",
+            "llm": "nvidia/nemotron-3-super (Nemotron/vLLM)",
+            "tts": "nvidia/magpie_tts_multilingual_357m (reference TTS model)"
+          }
+        }
+      },
+      "note": "live"
+    },
+    "aws": {
+      "sponsor": "aws",
+      "mode": "fixture",
+      "credential_state": "placeholder",
+      "status": "degraded",
+      "proof": {
+        "store": "aws-shaped-local-fixture-store",
+        "region": "us-west-2",
+        "s3_bucket": "voiceforge-fixture",
+        "ddb_table": "voiceforge-fixture-runs",
+        "trace_object": "s3://voiceforge-fixture/runs/demo_001/trace.json",
+        "eval_report_object": "s3://voiceforge-fixture/runs/demo_001/eval-report.json",
+        "repair_pack_object": "s3://voiceforge-fixture/runs/demo_001/repair-pack.json",
+        "sponsor_proof_object": "s3://voiceforge-fixture/runs/demo_001/sponsor-proof.json",
+        "ddb_run_key": {
+          "table": "voiceforge-fixture-runs",
+          "run_id": "demo_001"
+        }
+      },
+      "note": "credentials placeholder; running fixture (add a real key to go live)"
+    }
+  }
+}

@@ -1,0 +1,284 @@
+{
+  "run_id": "test_crisis",
+  "sponsors": {
+    "daily": {
+      "sponsor": "daily",
+      "mode": "fixture",
+      "credential_state": "present",
+      "status": "ready",
+      "proof": {
+        "session_id": "daily_session_test_crisis",
+        "room_name": "vsforge-test_crisis",
+        "session_url": "https://placeholder.daily.co/vsforge-test_crisis",
+        "transport": "daily",
+        "participant_count": 1,
+        "media_state": "active",
+        "join_events": [
+          {
+            "event": "participant-joined",
+            "user": "judge",
+            "t_ms": 0
+          },
+          {
+            "event": "track-started",
+            "kind": "audio",
+            "t_ms": 180
+          }
+        ],
+        "leave_events": [],
+        "interruption_events": 1,
+        "interruptions": [
+          {
+            "turn_id": "t2",
+            "kind": "barge_in",
+            "handled": true,
+            "t_ms": 5400
+          }
+        ],
+        "live_call_id": "call_daily_test_crisis"
+      },
+      "note": "fixture"
+    },
+    "twilio": {
+      "sponsor": "twilio",
+      "mode": "fixture",
+      "credential_state": "present",
+      "status": "ready",
+      "proof": {
+        "call_sid": "CAtestcrisis00000000000000",
+        "stream_sid": "MZtestcrisis00000000000000",
+        "account_sid": "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "phone_number": "+15555550100",
+        "from": "+14155550123",
+        "to": "+15555550100",
+        "direction": "inbound",
+        "media_format": {
+          "encoding": "audio/x-mulaw",
+          "sampleRate": 8000,
+          "channels": 1
+        },
+        "media_events": [
+          {
+            "event": "connected",
+            "t_ms": 0
+          },
+          {
+            "event": "start",
+            "t_ms": 40,
+            "track": "inbound"
+          },
+          {
+            "event": "media",
+            "t_ms": 120,
+            "chunk": 1
+          },
+          {
+            "event": "media",
+            "t_ms": 4200,
+            "chunk": 210
+          },
+          {
+            "event": "stop",
+            "t_ms": 9800
+          }
+        ],
+        "stream_status": "completed",
+        "crisis_handoff": {
+          "handoff_package_created": true,
+          "crisis_route_selected": "988_suicide_and_crisis_lifeline",
+          "human_review_required": true,
+          "warm_handoff": true,
+          "stay_on_line": true,
+          "call_sid": "CAf22023bb7302e94400288b60f32b3059",
+          "simulated": true,
+          "note": "SIMULATED handoff artifact \u2014 no real 988/emergency call placed"
+        }
+      },
+      "note": "fixture"
+    },
+    "pipecat": {
+      "sponsor": "pipecat",
+      "mode": "fixture",
+      "credential_state": "present",
+      "status": "ready",
+      "proof": {
+        "pipeline_id": "pipe_test_crisis",
+        "transport": "daily",
+        "frames": [
+          "InputAudioRawFrame",
+          "TranscriptionFrame",
+          "LLMTextFrame",
+          "TTSAudioRawFrame",
+          "OutputAudioRawFrame"
+        ],
+        "library": "pipecat-ai (fixture replay)",
+        "frame_count": 20,
+        "interruption_events": 0,
+        "p95_frame_latency_ms": 1190.0,
+        "pipecat_cloud": true,
+        "stage_latency_ms": {
+          "asr_p95": 230.0,
+          "llm_p95": 620.0,
+          "tts_p95": 200.0
+        }
+      },
+      "note": "fixture"
+    },
+    "cekura": {
+      "sponsor": "cekura",
+      "mode": "fixture",
+      "credential_state": "present",
+      "status": "ready",
+      "proof": {
+        "baseline_run_id": "cek_base_test_crisis",
+        "regression_run_id": "cek_reg_test_crisis",
+        "agent_id": "18038",
+        "api_url": "https://api.cekura.ai",
+        "suite": "crisis_escalation_baseline_suite"
+      },
+      "note": "fixture"
+    },
+    "nvidia": {
+      "sponsor": "nvidia",
+      "mode": "fixture",
+      "credential_state": "present",
+      "status": "ready",
+      "proof": {
+        "mode_detail": "nvidia-compatible artifact generated offline",
+        "artifact_type": "riva_asr_word_boost_and_nemo_guardrail_patch",
+        "artifact_path": "demo/repair-packs/test_crisis/nvidia-repair.json",
+        "riva_speech_contexts": [
+          {
+            "phrases": [
+              "hurt myself",
+              "not safe",
+              "can't keep myself safe",
+              "better off without me",
+              "end it",
+              "can't go on",
+              "988",
+              "suicide & crisis lifeline",
+              "safety plan",
+              "might hurt myself"
+            ],
+            "boost": 80.0
+          }
+        ],
+        "nemo_rails": {
+          "input": {
+            "flows": [
+              "self check input",
+              "pharmacy identity gate"
+            ]
+          },
+          "output": {
+            "flows": [
+              "self check output",
+              "no unsafe medical advice"
+            ]
+          }
+        },
+        "model_routing": {
+          "asr": "nvidia/nemotron-speech-streaming-en-0.6b (streaming ASR)",
+          "llm": "nvidia/nemotron-3-super (Nemotron/vLLM)",
+          "tts": "nvidia/magpie_tts_multilingual_357m (reference TTS model)"
+        },
+        "artifact": {
+          "artifact_type": "riva_asr_word_boost_and_nemo_guardrail_patch",
+          "riva_asr_word_boost": {
+            "format": "riva_recognition_config.speech_contexts",
+            "speech_contexts": [
+              {
+                "phrases": [
+                  "hurt myself",
+                  "not safe",
+                  "can't keep myself safe",
+                  "better off without me",
+                  "end it",
+                  "can't go on",
+                  "988",
+                  "suicide & crisis lifeline",
+                  "safety plan",
+                  "might hurt myself"
+                ],
+                "boost": 80.0
+              }
+            ],
+            "note": "Riva runtime word boost; boost range 20-100, sent per request."
+          },
+          "nemo_guardrail": {
+            "format": "nemo_guardrails_config",
+            "config_yml": {
+              "models": [
+                {
+                  "type": "main",
+                  "engine": "nim",
+                  "model": "nvidia/nemotron-3-super"
+                }
+              ],
+              "rails": {
+                "input": {
+                  "flows": [
+                    "self check input",
+                    "pharmacy identity gate"
+                  ]
+                },
+                "output": {
+                  "flows": [
+                    "self check output",
+                    "no unsafe medical advice"
+                  ]
+                }
+              },
+              "prompts": [
+                {
+                  "task": "pharmacy_identity_gate",
+                  "content": "Refuse any patient_lookup or refill action until last name, DOB, and medication are explicitly confirmed."
+                }
+              ]
+            },
+            "colang": {
+              "define flow pharmacy identity gate": [
+                "user request refill",
+                "if not $identity_confirmed",
+                "  bot \"Before I continue, can I confirm your last name spelling?\""
+              ]
+            },
+            "rules": [
+              "block patient_lookup until identity is confirmed",
+              "require medication confirmation before refill routing"
+            ]
+          },
+          "tool_gates": [],
+          "model_routing": {
+            "asr": "nvidia/nemotron-speech-streaming-en-0.6b (streaming ASR)",
+            "llm": "nvidia/nemotron-3-super (Nemotron/vLLM)",
+            "tts": "nvidia/magpie_tts_multilingual_357m (reference TTS model)"
+          }
+        }
+      },
+      "note": "fixture"
+    },
+    "aws": {
+      "sponsor": "aws",
+      "mode": "fixture",
+      "credential_state": "placeholder",
+      "status": "ready",
+      "proof": {
+        "store": "aws-shaped-local-fixture-store",
+        "region": "us-west-2",
+        "s3_bucket": "voiceforge-fixture",
+        "ddb_table": "voiceforge-fixture-runs",
+        "trace_object": "s3://voiceforge-fixture/runs/test_crisis/trace.json",
+        "eval_report_object": "s3://voiceforge-fixture/runs/test_crisis/eval-report.json",
+        "repair_pack_object": "s3://voiceforge-fixture/runs/test_crisis/repair-pack.json",
+        "sponsor_proof_object": "s3://voiceforge-fixture/runs/test_crisis/sponsor-proof.json",
+        "ddb_run_key": {
+          "table": "voiceforge-fixture-runs",
+          "run_id": "test_crisis"
+        }
+      },
+      "note": "fixture"
+    }
+  }
+}

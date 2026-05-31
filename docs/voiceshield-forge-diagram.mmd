@@ -1,0 +1,31 @@
+flowchart LR
+    Daily["Daily realtime AI session<br/>WebRTC media, interruptions"]
+    Twilio["Twilio PSTN call<br/>Call SID, Media Streams"]
+    Trace["Normalized CallTrace<br/>audio, transcript, tool calls, latency"]
+    Pipecat["Pipecat voice pipeline<br/>ASR, VAD, LLM, guardrails, TTS"]
+    Nvidia["NVIDIA repair targets<br/>ASR vocabulary, open model, guardrails"]
+    Cekura["Cekura eval harness<br/>baseline + regression"]
+    Router["Failure router<br/>which layer broke?"]
+    Repair["Forge repair pack<br/>vocab boost, spellback, tool gate"]
+    Harder["Harder evals<br/>noise, speed, spelling, unsafe trap"]
+    Gate["Promotion gate<br/>safer, more correct, latency OK"]
+    Aws["AWS evidence store<br/>S3 logs, DynamoDB runs, CloudWatch metrics"]
+    Dashboard["Dashboard proof<br/>3/10 -> 8/10, wrong lookup 3 -> 0"]
+
+    Daily --> Trace
+    Twilio --> Trace
+    Trace --> Pipecat
+    Nvidia --> Pipecat
+    Pipecat --> Cekura
+    Cekura --> Router
+    Router --> Repair
+    Repair --> Harder
+    Harder --> Cekura
+    Cekura --> Gate
+    Gate --> Dashboard
+    Gate -. promoted patch .-> Pipecat
+
+    Trace --> Aws
+    Cekura --> Aws
+    Repair --> Aws
+    Dashboard --> Aws

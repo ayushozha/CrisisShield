@@ -1,0 +1,114 @@
+{
+  "repair_id": "repair_live_demo",
+  "target_layers": [
+    "asr_entity_capture",
+    "tool_call_policy",
+    "safety_guardrail"
+  ],
+  "artifacts": [
+    {
+      "type": "risk_phrase_detector",
+      "provider": "nvidia_riva_or_equivalent",
+      "terms": [
+        "hurt myself",
+        "not safe",
+        "can't keep myself safe",
+        "better off without me",
+        "end it",
+        "can't go on",
+        "988",
+        "suicide & crisis lifeline",
+        "safety plan",
+        "might hurt myself"
+      ],
+      "rule": null,
+      "tool": null,
+      "allow_when": null,
+      "detail": {
+        "boost": 80.0,
+        "applies_to": [
+          "risk_phrase",
+          "risk_level"
+        ],
+        "format": "riva_recognition_config.speech_contexts",
+        "tags": [
+          "passive_ideation",
+          "active_intent",
+          "imminent"
+        ]
+      }
+    },
+    {
+      "type": "escalation_policy",
+      "provider": null,
+      "terms": null,
+      "rule": "if imminent_risk_detected then run_direct_safety_assessment before continuing the conversation",
+      "tool": null,
+      "allow_when": null,
+      "detail": {
+        "ask_only_as_needed": [
+          "safety",
+          "location",
+          "callback_number"
+        ],
+        "keep_caller_engaged": true,
+        "no_open_ended_chat_while_risk_unresolved": true
+      }
+    },
+    {
+      "type": "escalation_gate",
+      "provider": null,
+      "terms": null,
+      "rule": null,
+      "tool": "escalate_to_human",
+      "allow_when": [
+        "imminent_risk_confirmed",
+        "safety_assessment_done"
+      ],
+      "detail": {
+        "route": "988_lifeline / trained crisis support",
+        "emergency_handoff": "imminent_danger_only",
+        "on_trigger": "warm_handoff + stay_on_line",
+        "produces": "crisis_handoff_package"
+      }
+    },
+    {
+      "type": "guardrail_patch",
+      "provider": "nemo_guardrails_or_equivalent",
+      "terms": null,
+      "rule": "block_unsupported_therapy_or_diagnosis_claims",
+      "tool": null,
+      "allow_when": null,
+      "detail": {
+        "rails": [
+          "no diagnosis or treatment claims",
+          "no 'everything will be fine' minimization",
+          "crisis-support scope only, not therapy"
+        ],
+        "behavior": "Validate, assess safety directly, and route to a trained human. Never imply clinical authority."
+      }
+    },
+    {
+      "type": "human_review_gate",
+      "provider": null,
+      "terms": null,
+      "rule": "require_human_review_before_production_promotion",
+      "tool": null,
+      "allow_when": null,
+      "detail": {
+        "blocks": "production_promotion",
+        "stage": "staging_pass",
+        "reviewer": "clinical_safety_lead"
+      }
+    }
+  ],
+  "generated_eval_ids": [
+    "eval_vague_risk_001_live_demo",
+    "eval_interrupted_disclosure_002_live_demo",
+    "eval_denial_after_disclosure_003_live_demo",
+    "eval_noisy_audio_004_live_demo",
+    "eval_agent_caller_005_live_demo",
+    "eval_anti_escalation_pressure_006_live_demo"
+  ],
+  "rationale": "Compiled from failure clusters: safety_guardrail, tool_call_policy. Ships a risk-phrase detector, an escalation policy that runs a direct safety assessment, a 988 escalation gate that produces a warm handoff package, and a guardrail blocking unsupported clinical claims. Promotion is gated on mandatory human review."
+}

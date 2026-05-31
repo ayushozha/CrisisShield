@@ -1,0 +1,67 @@
+[project]
+name = "voiceshield-forge-backend"
+version = "0.1.0"
+description = "VoiceShield Forge — failure router & repair compiler harness for production voice agents"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+
+# ── Core deps: enough to run the ENTIRE fixture harness offline. ──────────────
+# The heavy / version-fragile sponsor SDKs (pipecat-ai, twilio, boto3, cekura)
+# are optional extras imported lazily by each adapter's *live* path. This is a
+# deliberate spec requirement: `uv run python -m app.harness.smoke --mode fixture`
+# and run_demo must pass with placeholder keys and no external SDK installed.
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "pydantic>=2.9.0",
+    "python-dotenv>=1.0.1",
+    "httpx>=0.27.0",
+    "websockets>=12.0",
+    "rich>=13.7.0",
+]
+
+[project.optional-dependencies]
+# Live Daily/Twilio/Pipecat voice pipeline. Spec target: pipecat-ai 1.3.0.
+voice = [
+    "pipecat-ai>=0.0.40",
+]
+# Live Twilio PSTN. Spec target: twilio 9.10.9.
+telephony = [
+    "twilio>=9.0.0",
+]
+# Live AWS persistence. Spec target: boto3 1.43.18.
+aws = [
+    "boto3>=1.34.0",
+]
+# Cekura SDK if published. Spec target: cekura 1.3.1. May be unavailable on
+# PyPI; the Cekura adapter falls back to a direct REST client (httpx) and then
+# to fixture mode, so this extra is never required for the harness to run.
+cekura = [
+    "cekura>=1.0.0",
+]
+all = [
+    "pipecat-ai>=0.0.40",
+    "twilio>=9.0.0",
+    "boto3>=1.34.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.6.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]

@@ -1,0 +1,73 @@
+{
+  "artifact_type": "riva_asr_word_boost_and_nemo_guardrail_patch",
+  "riva_asr_word_boost": {
+    "format": "riva_recognition_config.speech_contexts",
+    "speech_contexts": [
+      {
+        "phrases": [
+          "hurt myself",
+          "not safe",
+          "can't keep myself safe",
+          "better off without me",
+          "end it",
+          "can't go on",
+          "988",
+          "suicide & crisis lifeline",
+          "safety plan",
+          "might hurt myself"
+        ],
+        "boost": 80.0
+      }
+    ],
+    "note": "Riva runtime word boost; boost range 20-100, sent per request."
+  },
+  "nemo_guardrail": {
+    "format": "nemo_guardrails_config",
+    "config_yml": {
+      "models": [
+        {
+          "type": "main",
+          "engine": "nim",
+          "model": "nvidia/nemotron-3-super"
+        }
+      ],
+      "rails": {
+        "input": {
+          "flows": [
+            "self check input",
+            "pharmacy identity gate"
+          ]
+        },
+        "output": {
+          "flows": [
+            "self check output",
+            "no unsafe medical advice"
+          ]
+        }
+      },
+      "prompts": [
+        {
+          "task": "pharmacy_identity_gate",
+          "content": "Refuse any patient_lookup or refill action until last name, DOB, and medication are explicitly confirmed."
+        }
+      ]
+    },
+    "colang": {
+      "define flow pharmacy identity gate": [
+        "user request refill",
+        "if not $identity_confirmed",
+        "  bot \"Before I continue, can I confirm your last name spelling?\""
+      ]
+    },
+    "rules": [
+      "block patient_lookup until identity is confirmed",
+      "require medication confirmation before refill routing"
+    ]
+  },
+  "tool_gates": [],
+  "model_routing": {
+    "asr": "nvidia/nemotron-speech-streaming-en-0.6b (streaming ASR)",
+    "llm": "nvidia/nemotron-3-super (Nemotron/vLLM)",
+    "tts": "nvidia/magpie_tts_multilingual_357m (reference TTS model)"
+  }
+}

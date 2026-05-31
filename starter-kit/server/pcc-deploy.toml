@@ -1,0 +1,9 @@
+agent_name = "voiceshield-forge-agent"
+secret_set = "voiceshield-forge-demo-secrets"
+agent_profile = "agent-1x"
+
+[krisp_viva]
+	audio_filter = "tel"
+
+[scaling]
+	min_agents = 1

@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VoiceShield Forge Diagram</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #0d1a2b;
+      --panel-2: #12233a;
+      --line: #2f4564;
+      --text: #f5f8ff;
+      --muted: #aab7ca;
+      --green: #66d36e;
+      --lime: #9bea51;
+      --cyan: #4db7ff;
+      --purple: #9d7cff;
+      --orange: #ffb05c;
+      --red: #ff6a6a;
+      --pink: #ff5b78;
+      --blue: #5d8cff;
+      --aws: #ff9900;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .stage {
+      width: min(100vw, 1800px);
+      aspect-ratio: 16 / 9;
+      background: #07111f;
+      overflow: hidden;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    text {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--text);
+    }
+
+    .title {
+      font-size: 42px;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      font-size: 21px;
+      fill: var(--muted);
+      font-weight: 500;
+    }
+
+    .section-title {
+      font-size: 21px;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    .label {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .small {
+      font-size: 14px;
+      fill: var(--muted);
+      font-weight: 520;
+    }
+
+    .tiny {
+      font-size: 12px;
+      fill: var(--muted);
+      font-weight: 560;
+    }
+
+    .metric {
+      font-size: 20px;
+      font-weight: 790;
+    }
+
+    .mono {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 14px;
+      fill: #dce7f7;
+    }
+
+    .box {
+      fill: var(--panel);
+      stroke: var(--line);
+      stroke-width: 1.5;
+      rx: 8;
+    }
+
+    .soft {
+      fill: var(--panel-2);
+      stroke: #314b70;
+      stroke-width: 1.4;
+      rx: 8;
+    }
+
+    .chip {
+      fill: #111f34;
+      stroke: #375171;
+      stroke-width: 1;
+      rx: 7;
+    }
+
+    .green-box {
+      fill: #10291f;
+      stroke: #3d9b4c;
+      stroke-width: 1.5;
+      rx: 8;
+    }
+
+    .red-box {
+      fill: #2a1720;
+      stroke: #b9494e;
+      stroke-width: 1.4;
+      rx: 8;
+    }
+
+    .orange-box {
+      fill: #2a2014;
+      stroke: #a86d26;
+      stroke-width: 1.4;
+      rx: 8;
+    }
+
+    .arrow {
+      stroke: #8ca7c8;
+      stroke-width: 3;
+      fill: none;
+      marker-end: url(#arrow);
+    }
+
+    .loop {
+      stroke: var(--green);
+      stroke-width: 3;
+      stroke-dasharray: 8 8;
+      fill: none;
+      marker-end: url(#arrowGreen);
+    }
+
+    .aws-line {
+      stroke: var(--aws);
+      stroke-width: 2.5;
+      stroke-dasharray: 7 7;
+      fill: none;
+      marker-end: url(#arrowAws);
+    }
+
+    .divider {
+      stroke: #213651;
+      stroke-width: 1;
+    }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-label="VoiceShield Forge architecture diagram">
+    <svg viewBox="0 0 1920 1080" role="img" aria-labelledby="diagram-title diagram-desc">
+      <title id="diagram-title">VoiceShield Forge hackathon architecture diagram</title>
+      <desc id="diagram-desc">A simple production voice-agent loop: call surfaces, Pipecat pipeline, Cekura evaluation, Forge repair, regression gate, and AWS evidence store.</desc>
+      <defs>
+        <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+          <path d="M2,2 L10,6 L2,10 Z" fill="#8ca7c8" />
+        </marker>
+        <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+          <path d="M2,2 L10,6 L2,10 Z" fill="#66d36e" />
+        </marker>
+        <marker id="arrowAws" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+          <path d="M2,2 L10,6 L2,10 Z" fill="#ff9900" />
+        </marker>
+        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#000814" flood-opacity="0.34" />
+        </filter>
+      </defs>
+
+      <rect width="1920" height="1080" fill="#07111f" />
+
+      <g transform="translate(66 48)">
+        <rect x="0" y="0" width="58" height="68" rx="8" fill="#1d3152" stroke="#5d8cff" stroke-width="1.5" />
+        <path d="M29 14 L45 23 V42 C45 52 38 59 29 63 C20 59 13 52 13 42 V23 Z" fill="#5d8cff" opacity="0.88" />
+        <path d="M21 39 V28 M29 46 V20 M37 39 V28" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+        <text x="82" y="34" class="title">VoiceShield Forge</text>
+        <text x="82" y="68" class="subtitle">Failed call -&gt; exact failure -&gt; safe patch -&gt; regression proof</text>
+      </g>
+
+      <g transform="translate(1235 56)">
+        <rect x="0" y="0" width="555" height="70" rx="8" fill="#0b1727" stroke="#253a58" />
+        <text x="24" y="30" class="small" fill="#c5d3e6">Live demo promise</text>
+        <text x="24" y="56" class="label">One button turns a failed call into a promoted repair.</text>
+      </g>
+
+      <g transform="translate(68 150)" filter="url(#shadow)">
+        <rect x="0" y="0" width="1784" height="92" rx="8" fill="#09182a" stroke="#2b4262" />
+        <text x="24" y="35" class="section-title">Sponsor proof strip</text>
+        <text x="24" y="65" class="small">Visible artifacts for every required sponsor.</text>
+
+        <g transform="translate(390 22)">
+          <rect class="chip" x="0" y="0" width="186" height="48" />
+          <circle cx="22" cy="24" r="8" fill="#2d79ff" />
+          <text x="40" y="21" class="label">Daily</text>
+          <text x="40" y="39" class="tiny">realtime media</text>
+        </g>
+        <g transform="translate(590 22)">
+          <rect class="chip" x="0" y="0" width="186" height="48" />
+          <circle cx="22" cy="24" r="8" fill="#ff4f67" />
+          <text x="40" y="21" class="label">Twilio</text>
+          <text x="40" y="39" class="tiny">phone call SID</text>
+        </g>
+        <g transform="translate(790 22)">
+          <rect class="chip" x="0" y="0" width="186" height="48" />
+          <circle cx="22" cy="24" r="8" fill="#c8d2df" />
+          <text x="40" y="21" class="label">Pipecat</text>
+          <text x="40" y="39" class="tiny">pipeline frames</text>
+        </g>
+        <g transform="translate(990 22)">
+          <rect class="chip" x="0" y="0" width="186" height="48" />
+          <circle cx="22" cy="24" r="8" fill="#9d7cff" />
+          <text x="40" y="21" class="label">Cekura</text>
+          <text x="40" y="39" class="tiny">eval run IDs</text>
+        </g>
+        <g transform="translate(1190 22)">
+          <rect class="chip" x="0" y="0" width="186" height="48" />
+          <circle cx="22" cy="24" r="8" fill="#9bea51" />
+          <text x="40" y="21" class="label">NVIDIA</text>
+          <text x="40" y="39" class="tiny">repair target</text>
+        </g>
+        <g transform="translate(1390 22)">
+          <rect class="chip" x="0" y="0" width="186" height="48" />
+          <circle cx="22" cy="24" r="8" fill="#ff9900" />
+          <text x="40" y="21" class="label">AWS</text>
+          <text x="40" y="39" class="tiny">trace storage</text>
+        </g>
+      </g>
+
+      <g transform="translate(68 292)" filter="url(#shadow)">
+        <rect class="box" x="0" y="0" width="350" height="450" />
+        <text x="24" y="40" class="section-title">1. Call surfaces</text>
+        <text x="24" y="68" class="small">Two entry points, one trace schema.</text>
+
+        <rect class="soft" x="24" y="105" width="302" height="118" />
+        <text x="52" y="145" class="label">Daily realtime session</text>
+        <text x="52" y="174" class="small">WebRTC media, low-latency voice,</text>
+        <text x="52" y="197" class="small">interruptions, browser/mobile demo.</text>
+        <circle cx="288" cy="149" r="18" fill="#2d79ff" opacity="0.95" />
+        <path d="M280 149 H296 M288 141 V157" stroke="#fff" stroke-width="3" stroke-linecap="round" />
+
+        <rect class="soft" x="24" y="248" width="302" height="118" />
+        <text x="52" y="288" class="label">Twilio PSTN call</text>
+        <text x="52" y="317" class="small">Real phone number, call SID,</text>
+        <text x="52" y="340" class="small">Media Streams into the agent.</text>
+        <circle cx="288" cy="292" r="18" fill="#ff4f67" opacity="0.95" />
+        <path d="M280 292 C283 285 293 285 296 292 C293 300 283 300 280 292 Z" fill="none" stroke="#fff" stroke-width="3" />
+
+        <rect class="green-box" x="24" y="392" width="302" height="38" />
+        <text x="52" y="417" class="label">Normalized CallTrace</text>
+      </g>
+
+      <g transform="translate(486 292)" filter="url(#shadow)">
+        <rect class="box" x="0" y="0" width="350" height="450" />
+        <text x="24" y="40" class="section-title">2. Pipecat agent</text>
+        <text x="24" y="68" class="small">The voice pipeline we can measure.</text>
+
+        <g transform="translate(24 112)">
+          <rect class="chip" x="0" y="0" width="135" height="56" />
+          <text x="22" y="34" class="label">ASR</text>
+          <rect class="chip" x="166" y="0" width="135" height="56" />
+          <text x="198" y="34" class="label">VAD</text>
+        </g>
+        <g transform="translate(24 190)">
+          <rect class="chip" x="0" y="0" width="135" height="56" />
+          <text x="22" y="34" class="label">LLM</text>
+          <rect class="chip" x="166" y="0" width="135" height="56" />
+          <text x="187" y="34" class="label">Policy</text>
+        </g>
+        <g transform="translate(24 268)">
+          <rect class="chip" x="0" y="0" width="135" height="56" />
+          <text x="22" y="34" class="label">Tools</text>
+          <rect class="chip" x="166" y="0" width="135" height="56" />
+          <text x="197" y="34" class="label">TTS</text>
+        </g>
+
+        <rect class="orange-box" x="24" y="364" width="302" height="62" />
+        <text x="52" y="391" class="label">NVIDIA repair targets</text>
+        <text x="52" y="414" class="small">ASR boosts, model config, guardrails</text>
+      </g>
+
+      <g transform="translate(904 292)" filter="url(#shadow)">
+        <rect class="box" x="0" y="0" width="350" height="450" />
+        <text x="24" y="40" class="section-title">3. Eval + diagnosis</text>
+        <text x="24" y="68" class="small">Cekura turns vibes into evidence.</text>
+
+        <rect class="soft" x="24" y="108" width="302" height="78" />
+        <text x="52" y="141" class="label">Baseline eval</text>
+        <text x="52" y="166" class="small">Healthcare refill scenario: 3/10</text>
+
+        <rect class="red-box" x="24" y="214" width="302" height="126" />
+        <text x="52" y="249" class="label" fill="#ffd5d5">Failed layer</text>
+        <text x="52" y="278" class="metric" fill="#ff8e8e">ASR / Entity Capture</text>
+        <text x="52" y="308" class="small">Secondary: tool-call policy</text>
+
+        <rect class="soft" x="24" y="368" width="302" height="58" />
+        <text x="52" y="393" class="mono">Ojha -&gt; Oja</text>
+        <text x="52" y="416" class="mono">lookup attempted too early</text>
+      </g>
+
+      <g transform="translate(1322 292)" filter="url(#shadow)">
+        <rect class="box" x="0" y="0" width="530" height="450" />
+        <text x="24" y="40" class="section-title">4. Repair + proof</text>
+        <text x="24" y="68" class="small">Patch only promotes if regression passes.</text>
+
+        <rect class="soft" x="24" y="105" width="230" height="142" />
+        <text x="48" y="138" class="label">Generated repair pack</text>
+        <text x="48" y="170" class="small">- vocab boost: Ojha, metformin</text>
+        <text x="48" y="195" class="small">- spell back before lookup</text>
+        <text x="48" y="220" class="small">- gate patient lookup safely</text>
+
+        <rect class="orange-box" x="276" y="105" width="230" height="142" />
+        <text x="300" y="138" class="label">Harder evals</text>
+        <text x="300" y="170" class="small">Noise, fast speech, spelling,</text>
+        <text x="300" y="195" class="small">medication variants, unsafe</text>
+        <text x="300" y="220" class="small">lookup pressure test.</text>
+
+        <rect class="green-box" x="24" y="284" width="482" height="122" />
+        <text x="48" y="320" class="label">Promotion gate</text>
+        <text x="48" y="355" class="metric" fill="#80e084">Task success 3/10 -&gt; 8/10</text>
+        <text x="48" y="385" class="small">Wrong lookup 3 -&gt; 0 | unsafe responses 2 -&gt; 0 | latency OK</text>
+        <rect x="365" y="316" width="112" height="42" rx="7" fill="#2f9f45" />
+        <text x="391" y="343" class="label">PROMOTE</text>
+      </g>
+
+      <path class="arrow" d="M418 518 H486" />
+      <path class="arrow" d="M836 518 H904" />
+      <path class="arrow" d="M1254 518 H1322" />
+      <path class="loop" d="M1600 742 C1600 838 555 850 560 742" />
+
+      <g transform="translate(68 796)" filter="url(#shadow)">
+        <rect x="0" y="0" width="1784" height="168" rx="8" fill="#0a1727" stroke="#2b4262" />
+        <text x="24" y="43" class="section-title">AWS evidence rail</text>
+        <text x="24" y="73" class="small">All proof is stored and replayable after the run.</text>
+        <path class="aws-line" d="M355 84 H1600" />
+
+        <g transform="translate(360 34)">
+          <rect class="chip" x="0" y="0" width="230" height="96" />
+          <text x="24" y="35" class="label">S3 artifacts</text>
+          <text x="24" y="63" class="small">audio, transcripts, repair JSON</text>
+        </g>
+        <g transform="translate(635 34)">
+          <rect class="chip" x="0" y="0" width="230" height="96" />
+          <text x="24" y="35" class="label">DynamoDB index</text>
+          <text x="24" y="63" class="small">run IDs, scenario IDs, status</text>
+        </g>
+        <g transform="translate(910 34)">
+          <rect class="chip" x="0" y="0" width="230" height="96" />
+          <text x="24" y="35" class="label">CloudWatch metrics</text>
+          <text x="24" y="63" class="small">latency, failure class, gates</text>
+        </g>
+        <g transform="translate(1185 34)">
+          <rect class="chip" x="0" y="0" width="230" height="96" />
+          <text x="24" y="35" class="label">Dashboard report</text>
+          <text x="24" y="63" class="small">before/after proof for judges</text>
+        </g>
+        <g transform="translate(1490 34)">
+          <rect class="green-box" x="0" y="0" width="230" height="96" />
+          <text x="24" y="35" class="label">One-line outcome</text>
+          <text x="24" y="63" class="small">failed call became a safe patch</text>
+        </g>
+      </g>
+
+      <g transform="translate(70 1004)">
+        <text x="0" y="0" class="small">Presenter line: VoiceShield Forge is CI/CD for voice-agent reliability. We do not just demo a bot; we prove it gets safer after failures.</text>
+      </g>
+    </svg>
+  </main>
+</body>
+</html>

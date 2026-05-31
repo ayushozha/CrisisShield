@@ -1,0 +1,69 @@
+# ─────────────────────────────────────────────────────────────
+# VoiceShield Forge — secrets & env
+# Every API key lives in .env / .env.local. These MUST stay out of VCS.
+# ─────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.env
+.env.local
+.env.local.*
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+next-env.d.ts
+.vercel/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.uv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg
+
+# AWS / local fixture object store runtime output (artifacts are regenerated)
+services/voice-backend/.aws-fixture-store/
+demo/seeded-runs/**/*.runtime.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.log
+
+# Tunnels / temp
+*.ngrok.log
+.tmp/
+tmp/
+
+# Vendored hackathon starter kit (keeps its own upstream git history + venv)
+starter-kit/.git/
+starter-kit/server/.venv/
+
+# External reference clones & verification checkouts (own git history, not part
+# of this repo) + local agent/browser scratch state. Never push these.
+.external/
+.verify/
+.playwright-mcp/
+.tmp/
+memory/
+.claude/
