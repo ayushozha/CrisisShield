@@ -16,6 +16,8 @@
 
 Call the number, talk to the voice agent naturally, and you should see the end-to-end system working: Twilio receives the call, Pipecat runs the voice loop, Nemotron handles the model path, Timbre records the trace, and the dashboard/eval harness captures the result.
 
+After the call, please also review the screenshot walkthrough below. It shows the system state judges should look for: live transcript, agent reasoning, failure routing, repair generation, and the Cekura regression gate.
+
 This is a hackathon demo line, not a crisis service. For a real emergency or crisis, call or text 988 in the United States.
 
 <img src="docs/timbre-banner.png" alt="Timbre banner showing a voice conversation passing through a safety checkpoint before human review" width="100%">
@@ -42,6 +44,40 @@ Timbre wraps a voice agent with a self-improving evaluation loop:
 8. Even when the gate passes, crisis-domain changes stop at human review.
 
 The demo scenario is a 988-style crisis-support line. The baseline agent hears a caller say they may hurt themselves, but keeps chatting instead of escalating. Timbre catches the miss, creates a stricter escalation policy, generates harder crisis evals, and proves the repaired agent no longer misses that class of handoff.
+
+## Visual Walkthrough For Judges
+
+Judges should use these screenshots as the quick product story. They show how Timbre moves from a real voice call to agent reasoning, safety diagnosis, repair generation, and regression proof.
+
+### 1. Live Twilio call with transcript
+
+The live call screen shows the caller transcript, accent/noise coverage, risk detection, and the simulated handoff path.
+
+<img src="docs/live-call-transcript-screenshot.png" alt="Live Twilio call panel with transcript, risk detection, accent and noisy-room coverage, and simulated handoff" width="100%">
+
+### 2. Agent Mind: thinking, segregation, and Cekura guidance
+
+This is the agent's reasoning surface. It separates the voice signal from safety policy, accepts Cekura guidance, generates the response plan, executes the handoff, and saves the case for regression coverage.
+
+<img src="docs/agent-mind-thinking-screenshot.png" alt="Agent Mind panel showing active reasoning, signal segregation, Cekura suggestion, response plan, execution, and captured signals" width="100%">
+
+### 3. Scenario: failure routing
+
+The failure router proves the agent heard the risky phrase correctly. The issue was not transcription; it was the crisis escalation policy.
+
+<img src="docs/scenario-failure-router-screenshot.png" alt="Failure router scenario showing clean ASR, failed crisis escalation, Cekura failing checks, and the next repair step" width="100%">
+
+### 4. Scenario: repair compiler
+
+The repair compiler turns the failed call into a concrete policy patch, guardrails, handoff gate, Cekura regression scenarios, and a human review requirement.
+
+<img src="docs/scenario-repair-compiler-screenshot.png" alt="Repair compiler scenario showing risk detector, escalation policy, handoff gate, Cekura regression scenarios, and human review gate" width="100%">
+
+### 5. Scenario: Cekura regression gate
+
+Cekura re-runs the repaired behavior and checks that missed escalations and unsafe responses drop to zero while correct handoff improves. The result clears staging but still requires human review.
+
+<img src="docs/scenario-regression-gate-screenshot.png" alt="Cekura regression gate scenario showing before and after safety metrics, regression coverage, and human review requirement" width="100%">
 
 ## Why This Is Mission Critical
 
