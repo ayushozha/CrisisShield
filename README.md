@@ -10,6 +10,8 @@
 [![Pipecat](https://img.shields.io/badge/Pipecat-voice_pipeline-6D4BFF)](#how-we-used-the-hackathon-tools)
 [![Safety](https://img.shields.io/badge/Handoff-SIMULATED_only-FF9F2E)](#safety-and-ethics)
 
+### Demo video: **[Watch the demo on Google Drive](https://drive.google.com/drive/folders/17nQINuMCJKp8owPbAOMfLmLDrmdT0YUo?usp=sharing)**
+
 ### Judges: call the live demo at **+1 (725) 242-4845**
 
 Call the number, talk to the voice agent naturally, and you should see the end-to-end system working: Twilio receives the call, Pipecat runs the voice loop, Nemotron handles the model path, Timbre records the trace, and the dashboard/eval harness captures the result.
