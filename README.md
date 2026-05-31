@@ -58,6 +58,8 @@ That is why this application needs to exist. Teams cannot ship voice agents into
 
 Timbre is the layer that makes voice-agent safety operational. It does not replace human crisis support; it makes sure an autonomous voice agent knows when it must stop acting autonomous.
 
+It also matters for representation. A safety voice agent cannot only work for the easiest audio: one accent, one speaking style, a quiet room, and a direct disclosure. Timbre uses Cekura to keep expanding the regression suite across accents, noisy calls, interruptions, hesitation, indirect risk language, and other edge cases. When the system finds a group or condition it handles poorly, that failure becomes a new test and repair target. The goal is not just a safer average result; it is safety coverage that keeps improving for more callers.
+
 ## Result
 
 These numbers are computed by the harness from the seeded demo run; they are not hardcoded into the UI.
@@ -122,6 +124,7 @@ Pipecat, Cekura, NVIDIA Nemotron endpoints, Daily, Twilio, Gradium TTS, and AWS 
 | Cekura baseline eval | Scores the original agent against crisis-safety metrics | Judges the safety protocol, not just the conversational tone |
 | Failure router | Separates ASR, policy, escalation, tool, and latency failures | Prevents fixing the wrong layer |
 | Repair compiler | Emits an escalation patch, guardrails, and generated regression scenarios | A failure becomes a testable change, not a vague instruction |
+| Inclusive regression coverage | Adds accent, noisy-audio, interruption, hesitation, and indirect-language cases to the Cekura regression suite | Keeps the agent improving for more callers, not only clean studio-like speech |
 | Regression eval | Re-runs the repaired behavior through Cekura and seeded scenarios | Shows before/after proof |
 | Regression gate | Blocks promotion on missed escalation, unsafe response, latency, or safety regressions | Keeps the system honest |
 | Human review state | Requires human approval even after staging passes | Crisis-domain changes never auto-ship |
@@ -167,7 +170,7 @@ Here is the short version before the deeper notes:
 
 | Tool | How it makes the system work | Why it is mission critical |
 | --- | --- | --- |
-| **Cekura** | Runs the baseline and regression evals, scores crisis-safety behavior, and gives each run real eval identity. | Without an external scoring loop, "the agent sounded empathetic" can hide a missed escalation. Cekura turns behavior into measurable safety evidence. |
+| **Cekura** | Runs the baseline and regression evals, scores crisis-safety behavior, covers accent variation, noisy calls, interruptions, hesitation, and indirect phrasing, and gives each run real eval identity. | Without an external scoring loop, "the agent sounded empathetic" can hide a missed escalation. Cekura turns behavior into measurable safety evidence and keeps under-represented caller patterns in the gate. |
 | **NVIDIA Nemotron** | Provides the streaming ASR and reasoning-model path for the agent under test. | The harness must prove whether the agent actually heard the risky phrase. If ASR is clean and the handoff still fails, the bug is policy/reasoning, not transcription. |
 | **Pipecat** | Connects STT, LLM, tools, TTS, Daily, and Twilio into the realtime voice pipeline, then emits frames the harness can audit. | A safety system for voice agents needs the real voice runtime, not a text-only simulation. Pipecat gives us the call-level evidence. |
 | **Daily** | Provides the realtime web-call/media-room path for talking to the agent live. | Judges and builders can experience the product as an actual conversation, which is the only way to judge timing, interruptions, and handoff feel. |
@@ -184,9 +187,12 @@ Cekura is the evaluation layer. We used it to score whether the crisis agent:
 - avoided diagnosis or therapy claims,
 - routed to the right handoff path,
 - escalated quickly enough,
-- maintained empathy without staying autonomous too long.
+- maintained empathy without staying autonomous too long,
+- stayed reliable across accent variation, noisy calls, interruptions, hesitation, and indirect disclosures.
 
 The live path is in `services/voice-backend/app/sponsor_adapters/cekura_adapter.py`. In live mode it talks to our Cekura CrisisLine agent and stores real result IDs in the sponsor proof. In fixture mode it degrades visibly so the dashboard still works offline.
+
+Cekura is also how the system keeps improving for representation. If an accent, audio condition, speaking style, or phrasing pattern is under-covered, we can add it as a scenario and keep it in the regression gate so the fix does not disappear later.
 
 What worked well:
 
