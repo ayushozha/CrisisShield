@@ -38,7 +38,7 @@ Built on the hackathon themes end‑to‑end:
 ⚠️ Safety note: the 988 handoff is a *simulated* artifact. No real emergency call is ever placed. This is a testing harness, not a crisis service. If you're in crisis, call or text 988 (US).
 
 🎥 60‑second demo: [DEMO LINK]
-⭐ Code + full write‑up: [REPO LINK]
+⭐ Code + full write‑up: https://github.com/ayushozha/CrisisShield
 
 #VoiceAI #AIsafety #Cekura #Nemotron #NVIDIA #Pipecat #YCHackathon #AgentEvals #VoiceAgents
 
@@ -62,14 +62,14 @@ A few things we shipped that I'm proud of:
 
 Themes hit: agent evals (Cekura), open weights (Nemotron), voice (Pipecat). 🟢🟩🟣
 
-🎥 [DEMO LINK] · ⭐ [REPO LINK]
+🎥 [DEMO LINK] · ⭐ https://github.com/ayushozha/CrisisShield
 
 #AIEngineering #VoiceAgents #LLMEvals #OpenWeights #Nemotron #Cekura #Pipecat #YC
 
 ---
 
 ### Posting checklist
-- [ ] Replace `[DEMO LINK]` (keep it under 60s) and `[REPO LINK]`.
+- [ ] Replace `[DEMO LINK]` (keep it under 60s) and `https://github.com/ayushozha/CrisisShield`.
 - [ ] Upload `architecture.png` as the post image (1600px wide, ready to attach).
 - [ ] Keep the safety disclaimer — it reads as responsible, and judges/NVIDIA/Cekura care.
 - [ ] Tag teammates and the sponsor orgs (Cekura, NVIDIA, Pipecat/Daily, Twilio, AWS).
